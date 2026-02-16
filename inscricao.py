@@ -1,29 +1,32 @@
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 
-st.title("📝 Inscrição para o Evento")
-st.write("Preencha os dados abaixo para garantir sua vaga.")
+st.set_page_config(page_title="Inscrição de Evento", page_icon="📝")
 
-# Estabelece a conexão com a planilha (configuraremos o link depois)
+st.title("📝 Formulário de Inscrição")
+st.write("Preencha seus dados para confirmar sua participação.")
+
+# Cria a conexão com o Google Sheets
 conn = st.connection("gsheets", type=GSheetsConnection)
 
-# Cria o formulário
-with st.form(key="form_inscricao"):
-    nome = st.text_input("Nome Completo:")
-    email = st.text_input("E-mail:")
-    setor = st.selectbox("Setor/Empresa:", ["TI", "RH", "Vendas", "Outros"])
+# Cria o formulário visual
+with st.form(key="formulario"):
+    nome = st.text_input("Nome Completo")
+    email = st.text_input("E-mail")
+    telefone = st.text_input("Telefone")
+    opcao = st.selectbox("Como soube do evento?", ["Redes Sociais", "Amigos", "E-mail", "Outros"])
     
-    botao_enviar = st.form_submit_button(label="Finalizar Inscrição")
+    submit_button = st.form_submit_button(label="Enviar Inscrição")
 
-if botao_enviar:
+if submit_button:
     if nome == "" or email == "":
-        st.error("Por favor, preencha o nome e o e-mail!")
+        st.warning("Por favor, preencha o Nome e o E-mail.")
     else:
-        # Aqui o Python prepara os dados para salvar
-        nova_linha = {"Nome": nome, "Email": email, "Setor": setor}
+        # Prepara os dados
+        dados = {"Nome": nome, "Email": email, "Telefone": telefone, "Origem": opcao}
         
-        # Comando que envia para o Google Sheets
-        conn.create(data=nova_linha)
+        # Envia para a planilha
+        conn.create(data=dados)
         
-        st.success(f"Parabéns {nome}! Sua inscrição foi realizada.")
+        st.success(f"Tudo pronto, {nome}! Sua inscrição foi salva na nossa planilha.")
         st.balloons()
