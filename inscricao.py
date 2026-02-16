@@ -1,42 +1,14 @@
 import streamlit as st
-import time
 
 st.set_page_config(page_title="Inscrição 9º Acampamento Monte Tabor", page_icon="⛺")
-
-# --- ESTILO DA ANIMAÇÃO DE CRUZES ---
-def animacao_religiosa():
-    st.markdown("""
-        <style>
-        @keyframes float {
-            0% { transform: translateY(100vh) opacity(0); }
-            50% { opacity: 1; }
-            100% { transform: translateY(-100vh); opacity: 0; }
-        }
-        .cross {
-            position: fixed;
-            bottom: -10%;
-            font-size: 24px;
-            color: gold;
-            user-select: none;
-            z-index: 9999;
-            animation: float 5s linear infinite;
-        }
-        </style>
-        <div class="cross" style="left: 10%; animation-delay: 0s;">🕇</div>
-        <div class="cross" style="left: 20%; animation-delay: 2s; color: white;">♰</div>
-        <div class="cross" style="left: 35%; animation-delay: 1s;">🕆</div>
-        <div class="cross" style="left: 50%; animation-delay: 3s; color: white;">🕇</div>
-        <div class="cross" style="left: 65%; animation-delay: 0.5s;">♰</div>
-        <div class="cross" style="left: 80%; animation-delay: 2.5s;">🕆</div>
-        <div class="cross" style="left: 90%; animation-delay: 1.5s; color: white;">🕇</div>
-        """, unsafe_allow_html=True)
 
 # --- CONFIGURAÇÃO ---
 email_destino = "genniusinformatica@gmail.com" 
 
-st.title("⛺ ACAMPAMENTO MONTE TABOR")
+st.title("⛺ 9º ACAMPAMENTO MONTE TABOR")
 st.subheader("FICHA DE INSCRIÇÃO")
 
+# Função para validar CPF simples
 def validar_cpf(cpf):
     cpf_limpo = ''.join(filter(str.isdigit, cpf))
     return len(cpf_limpo) == 11
@@ -92,6 +64,7 @@ with st.form("ficha_acampamento", clear_on_submit=False):
     submit = st.form_submit_button("VALIDAR DADOS E GERAR PROTOCOLO")
 
 if submit:
+    # Lista de campos para conferência de preenchimento
     campos_obrigatorios = [nome, nasc, rg, cpf, tel_pessoal, endereco, bairro, cidade, 
                            cep, ponto_ref, batismo, sus, mora_com, tels_familia, 
                            tels_amigos, convite, instrumento, parentes, vida_hoje, espera_acamp]
@@ -101,8 +74,8 @@ if submit:
     elif not validar_cpf(cpf):
         st.error("❌ CPF INVÁLIDO: Digite um CPF com 11 números.")
     else:
-        # EXECUTA A ANIMAÇÃO DAS CRUZES
-        animacao_religiosa()
+        # VOLTA DOS BALÕES COLORIDOS 🎈
+        st.balloons()
         
         st.success(f"✅ Dados validados com sucesso, {nome}! Agora, para finalizar, clique no botão vermelho abaixo.")
         
