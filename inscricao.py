@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="Inscrição 9º Acampamento Monte Tabor", page_icon="⛺")
+st.set_page_config(page_title="Inscrição Acampamento Monte Tabor", page_icon="⛺")
 
 # --- CONFIGURAÇÃO ---
 email_destino = "genniusinformatica@gmail.com" 
@@ -123,3 +123,4 @@ if submit:
             </form>
         """
         st.markdown(html_form, unsafe_allow_html=True)
+
