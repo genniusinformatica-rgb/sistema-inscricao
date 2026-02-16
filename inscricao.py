@@ -7,7 +7,7 @@ st.write("Preencha os dados abaixo para confirmar sua participação.")
 
 # --- CONFIGURAÇÃO ---
 # Coloque o seu e-mail real aqui embaixo
-email_destino = "SEU_EMAIL_AQUI@gmail.com" 
+email_destino = "genniusinformatica@gmail.com" 
 
 with st.form("meu_formulario"):
     nome = st.text_input("Nome Completo")
@@ -50,3 +50,4 @@ if submit:
         st.markdown(html_form, unsafe_allow_html=True)
     else:
         st.warning("Por favor, preencha todos os campos.")
+
