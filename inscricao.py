@@ -1,104 +1,113 @@
 import streamlit as st
 
-st.set_page_config(page_title="Inscrição 9º Acampamento Monte Tabor", page_icon="⛪")
+st.set_page_config(page_title="Inscrição 9º Acampamento Monte Tabor", page_icon="⛺")
 
-# Substitua pelo seu e-mail real
+# --- COLOQUE SEU E-MAIL AQUI ---
 email_destino = "genniusinformatica@gmail.com" 
 
-st.title("⛪ ACAMPAMENTO MONTE TABOR")
+st.title("⛺ 9º ACAMPAMENTO MONTE TABOR")
 st.subheader("FICHA DE INSCRIÇÃO")
 
-with st.form("ficha_acampamento"):
-    st.info("DADOS PESSOAIS")
-    nome = st.text_input("NOME (completo, sem abreviar)")
+# Função para validar CPF simples (apenas tamanho)
+def validar_cpf(cpf):
+    cpf_limpo = ''.join(filter(str.isdigit, cpf))
+    return len(cpf_limpo) == 11
+
+with st.form("ficha_acampamento", clear_on_submit=False):
+    st.info("DADOS PESSOAIS (Obrigatórios)")
+    nome = st.text_input("NOME (completo, sem abreviar) *")
     apelido = st.text_input("APELIDO")
     
     col1, col2 = st.columns(2)
     with col1:
-        idade = st.number_input("IDADE", min_value=0, step=1)
-        nasc = st.text_input("DATA NASC. (DD/MM/AAAA)")
+        idade = st.number_input("IDADE *", min_value=0, max_value=120, step=1)
+        nasc = st.text_input("DATA NASC. (DD/MM/AAAA) *")
     with col2:
-        rg = st.text_input("RG")
-        cpf = st.text_input("CPF")
+        rg = st.text_input("RG *")
+        cpf = st.text_input("CPF (Apenas números) *")
         
-    tel_pessoal = st.text_input("TELEFONE PESSOAL")
-    endereco = st.text_input("ENDEREÇO (completo)")
+    tel_pessoal = st.text_input("TELEFONE PESSOAL (WhatsApp) *")
+    endereco = st.text_input("ENDEREÇO (completo) *")
     
     col3, col4, col5 = st.columns(3)
     with col3:
-        bairro = st.text_input("BAIRRO")
+        bairro = st.text_input("BAIRRO *")
     with col4:
-        cidade = st.text_input("CIDADE/ESTADO")
+        cidade = st.text_input("CIDADE/ESTADO *")
     with col5:
-        cep = st.text_input("CEP")
+        cep = st.text_input("CEP *")
         
-    ponto_ref = st.text_input("PONTO DE REFERÊNCIA")
+    ponto_ref = st.text_input("PONTO DE REFERÊNCIA *")
     
     st.divider()
     st.info("INFORMAÇÕES ADICIONAIS")
-    batismo = st.text_input("DATA BATISMO (Se houver)")
-    sus = st.text_input("CARTÃO DO SUS")
-    camiseta = st.selectbox("TAMANHO DA CAMISETA", ["14", "16", "PP", "P", "M", "G", "GG"])
-    mora_com = st.text_input("COM QUEM VOCÊ MORA?")
+    batismo = st.text_input("DATA BATISMO (Se não souber, escreva 'Não sei') *")
+    sus = st.text_input("CARTÃO DO SUS *")
+    camiseta = st.selectbox("TAMANHO DA CAMISETA *", ["14", "16", "PP", "P", "M", "G", "GG"])
+    mora_com = st.text_input("COM QUEM VOCÊ MORA? *")
     
     st.divider()
     st.info("CONTATOS DE EMERGÊNCIA")
-    tels_familia = st.text_area("TELEFONES DE PESSOAS DE SUA FAMÍLIA")
-    tels_amigos = st.text_area("TELEFONES DE DIVERSOS AMIGOS PRÓXIMOS")
-    convite = st.text_input("QUEM TE CONVIDOU PARA O ACAMPAMENTO?")
+    tels_familia = st.text_area("TELEFONES DE PESSOAS DE SUA FAMÍLIA *")
+    tels_amigos = st.text_area("TELEFONES DE DIVERSOS AMIGOS PRÓXIMOS *")
+    convite = st.text_input("QUEM TE CONVIDOU PARA O ACAMPAMENTO? *")
     
     st.divider()
-    st.info("SAÚDE E INTERESSES")
-    medicamento = st.radio("FAZ USO DE MEDICAMENTO CONTÍNUO?", ["NÃO", "SIM"])
+    st.info("SAÚDE E REFLEXÃO")
+    medicamento = st.radio("FAZ USO DE MEDICAMENTO CONTÍNUO? *", ["NÃO", "SIM"])
     quais_meds = st.text_input("SE SIM, QUAIS?")
-    instrumento = st.text_input("TEM HABILIDADE COM ALGUM INSTRUMENTO MUSICAL? QUAL?")
-    parentes = st.text_area("PARENTE(S) OU AMIGO(S) PRÓXIMO(S) QUE IRÃO TRABALHAR OU PARTICIPAR")
+    instrumento = st.text_input("TEM HABILIDADE COM ALGUM INSTRUMENTO MUSICAL? QUAL? *")
+    parentes = st.text_area("PARENTE(S) OU AMIGO(S) PRÓXIMO(S) QUE IRÃO TRABALHAR OU PARTICIPAR *")
+    vida_hoje = st.text_area("COMO ESTÁ SUA VIDA HOJE? *")
+    espera_acamp = st.text_area("O QUE VOCÊ ESPERA DO ACAMPAMENTO? *")
     
-    st.divider()
-    st.info("REFLEXÃO")
-    vida_hoje = st.text_area("COMO ESTÁ SUA VIDA HOJE?")
-    espera_acamp = st.text_area("O QUE VOCÊ ESPERA DO ACAMPAMENTO?")
-    
-    st.warning("É OBRIGATÓRIO O PREENCHIMENTO DE TODAS AS INFORMAÇÕES")
-    submit = st.form_submit_button("GERAR PROTOCOLO DE ENVIO")
+    submit = st.form_submit_button("VALIDAR DADOS E GERAR PROTOCOLO")
 
 if submit:
-    if nome and tel_pessoal:
-        # ANIMAÇÃO RELIGIOSA (EFEITO DE NEVE/PAZ)
+    # Lista de campos obrigatórios para checagem manual extra
+    campos_obrigatorios = [nome, nasc, rg, cpf, tel_pessoal, endereco, bairro, cidade, 
+                           cep, ponto_ref, batismo, sus, mora_com, tels_familia, 
+                           tels_amigos, convite, instrumento, parentes, vida_hoje, espera_acamp]
+    
+    if any(campo == "" for campo in campos_obrigatorios):
+        st.error("❌ ERRO: Todos os campos com * são obrigatórios!")
+    elif not validar_cpf(cpf):
+        st.error("❌ CPF INVÁLIDO: Digite um CPF com 11 números.")
+    else:
+        # ANIMAÇÃO DE NEVE (Religiosa/Sóbria)
         st.snow()
-        st.success(f"Obrigado, {nome}! Sua ficha está pronta. Clique no botão vermelho abaixo para nos enviar os dados.")
+        st.success(f"✅ Dados validados com sucesso, {nome}! Agora, para finalizar, clique no botão vermelho abaixo.")
         
-        # Montando o corpo do e-mail com todos os dados
         corpo_dados = f"""
-        NOME: {nome}
-        APELIDO: {apelido}
+        NOVA INSCRIÇÃO - MONTE TABOR
+        ----------------------------
+        NOME: {nome} ({apelido})
         IDADE: {idade} | NASC: {nasc}
         RG: {rg} | CPF: {cpf}
-        TELEFONE: {tel_pessoal}
+        TEL: {tel_pessoal}
         ENDEREÇO: {endereco}, {bairro}, {cidade} - CEP: {cep}
         REF: {ponto_ref}
         BATISMO: {batismo} | SUS: {sus}
-        CAMISETA: {camiseta}
-        MORA COM: {mora_com}
-        CONTATOS FAMÍLIA: {tels_familia}
-        CONTATOS AMIGOS: {tels_amigos}
-        QUEM CONVIDOU: {convite}
-        MEDICAMENTO: {medicamento} ({quais_meds})
+        CAMISETA: {camiseta} | MORA COM: {mora_com}
+        EMERGÊNCIA FAMÍLIA: {tels_familia}
+        EMERGÊNCIA AMIGOS: {tels_amigos}
+        CONVITE: {convite}
+        MEDICAMENTOS: {medicamento} ({quais_meds})
         INSTRUMENTO: {instrumento}
-        PARENTE/AMIGO NO EVENTO: {parentes}
+        PARENTES/AMIGOS: {parentes}
         VIDA HOJE: {vida_hoje}
-        O QUE ESPERA: {espera_acamp}
+        EXPECTATIVA: {espera_acamp}
         """
 
         html_form = f"""
             <form action="https://formsubmit.co/{email_destino}" method="POST">
                 <input type="hidden" name="Ficha_Inscricao" value="{corpo_dados}">
                 <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_subject" value="NOVA INSCRIÇÃO: {nome} (Monte Tabor)">
+                <input type="hidden" name="_subject" value="INSCRIÇÃO: {nome} (CPF: {cpf})">
                 <button type="submit" style="
                     background-color: #ff4b4b;
                     color: white;
-                    padding: 15px 30px;
+                    padding: 18px;
                     border: none;
                     border-radius: 10px;
                     cursor: pointer;
@@ -106,10 +115,8 @@ if submit:
                     width: 100%;
                     font-weight: bold;
                 ">
-                    CLIQUE AQUI PARA CONFIRMAR E ENVIAR AGORA
+                    CONFIRMAR E ENVIAR AGORA ⛪
                 </button>
             </form>
         """
         st.markdown(html_form, unsafe_allow_html=True)
-    else:
-        st.error("Por favor, preencha ao menos o Nome e o Telefone Pessoal.")
