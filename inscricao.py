@@ -43,7 +43,7 @@ with st.form("ficha_acampamento", clear_on_submit=False):
     st.info("INFORMAÇÕES ADICIONAIS")
     batismo = st.text_input("DATA BATISMO (Se não souber, escreva 'Não sei') *")
     sus = st.text_input("CARTÃO DO SUS *")
-    camiseta = st.selectbox("TAMANHO DA CAMISETA *", ["14", "16", "PP", "P", "M", "G", "GG", "XG" "XXG", "EXG"])
+    camiseta = st.selectbox("TAMANHO DA CAMISETA *", ["14", "16", "PP", "P", "M", "G", "GG", "XG", "XXG", "EXG"])
     mora_com = st.text_input("COM QUEM VOCÊ MORA? *")
     
     st.divider()
@@ -123,6 +123,7 @@ if submit:
             </form>
         """
         st.markdown(html_form, unsafe_allow_html=True)
+
 
 
 
