@@ -1,32 +1,52 @@
 import streamlit as st
-from streamlit_gsheets import GSheetsConnection
 
-st.set_page_config(page_title="Inscrição de Evento", page_icon="📝")
+st.set_page_config(page_title="Inscrição Acampamento", page_icon="⛺")
 
-st.title("📝 Formulário de Inscrição")
-st.write("Preencha seus dados para confirmar sua participação.")
+st.title("⛺ Inscrição para o Acampamento")
+st.write("Preencha os dados abaixo para confirmar sua participação.")
 
-# Cria a conexão com o Google Sheets
-conn = st.connection("gsheets", type=GSheetsConnection)
+# --- CONFIGURAÇÃO ---
+# Coloque o seu e-mail real aqui embaixo
+email_destino = "SEU_EMAIL_AQUI@gmail.com" 
 
-# Cria o formulário visual
-with st.form(key="formulario"):
+with st.form("meu_formulario"):
     nome = st.text_input("Nome Completo")
-    email = st.text_input("E-mail")
-    telefone = st.text_input("Telefone")
-    opcao = st.selectbox("Como soube do evento?", ["Redes Sociais", "Amigos", "E-mail", "Outros"])
+    whatsapp = st.text_input("WhatsApp com DDD")
+    email_usuario = st.text_input("Seu E-mail")
+    origem = st.selectbox("Como soube do evento?", ["Amigo", "Instagram", "Igreja", "Outro"])
     
-    submit_button = st.form_submit_button(label="Enviar Inscrição")
+    submit = st.form_submit_button("Enviar Inscrição")
 
-if submit_button:
-    if nome == "" or email == "":
-        st.warning("Por favor, preencha o Nome e o E-mail.")
-    else:
-        # Prepara os dados
-        dados = {"Nome": nome, "Email": email, "Telefone": telefone, "Origem": opcao}
-        
-        # Envia para a planilha
-        conn.create(data=dados)
-        
-        st.success(f"Tudo pronto, {nome}! Sua inscrição foi salva na nossa planilha.")
+if submit:
+    if nome and whatsapp and email_usuario:
+        # Mensagem de sucesso visual
         st.balloons()
+        st.success(f"Quase lá, {nome}! Clique no botão abaixo para finalizar o envio dos dados.")
+        
+        # Este bloco cria um formulário invisível que manda os dados para o seu e-mail via FormSubmit
+        html_form = f"""
+            <form action="https://formsubmit.co/{email_destino}" method="POST">
+                <input type="hidden" name="Nome" value="{nome}">
+                <input type="hidden" name="WhatsApp" value="{whatsapp}">
+                <input type="hidden" name="Email_Contato" value="{email_usuario}">
+                <input type="hidden" name="Origem" value="{origem}">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="Nova Inscrição: {nome}">
+                <button type="submit" style="
+                    background-color: #ff4b4b;
+                    color: white;
+                    padding: 12px 24px;
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 18px;
+                    width: 100%;
+                    font-weight: bold;
+                ">
+                    CLIQUE AQUI PARA CONFIRMAR INSCRIÇÃO
+                </button>
+            </form>
+        """
+        st.markdown(html_form, unsafe_allow_html=True)
+    else:
+        st.warning("Por favor, preencha todos os campos.")
