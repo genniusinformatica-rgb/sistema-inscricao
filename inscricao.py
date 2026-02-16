@@ -5,7 +5,7 @@ st.set_page_config(page_title="Inscrição Acampamento Monte Tabor", page_icon="
 # --- CONFIGURAÇÃO ---
 email_destino = "genniusinformatica@gmail.com" 
 
-st.title("⛺ 9º ACAMPAMENTO MONTE TABOR")
+st.title("⛺ ACAMPAMENTO MONTE TABOR")
 st.subheader("FICHA DE INSCRIÇÃO")
 
 # Função para validar CPF simples
@@ -123,5 +123,6 @@ if submit:
             </form>
         """
         st.markdown(html_form, unsafe_allow_html=True)
+
 
 
