@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Casal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .modal-content button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .modal-content button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulário de Cadastro</h1>
+    <form id="cadastroForm" name="cadastroCasal" method="post" data-netlify="true" data-netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="cadastroCasal">
+        <input type="text" name="bot-field" style="display:none;">
+        <h2>Informações do Esposo</h2>
+        <label for="husband_name">Nome Completo:</label>
+        <input type="text" id="husband_name" name="husband_name" required>
+        
+        <label for="husband_dob">Data de Nascimento:</label>
+        <input type="date" id="husband_dob" name="husband_dob" required>
+        
+        <label for="husband_age">Idade:</label>
+        <input type="number" id="husband_age" name="husband_age" required>
+        
+        <label for="husband_cpf">CPF:</label>
+        <input type="text" id="husband_cpf" name="husband_cpf" required>
+        
+        <label for="husband_rg">RG:</label>
+        <input type="text" id="husband_rg" name="husband_rg" required>
+        
+        <label for="husband_address">Endereço:</label>
+        <input type="text" id="husband_address" name="husband_address" required>
+        
+        <label for="husband_city_state">Cidade/Estado (UF):</label>
+        <input type="text" id="husband_city_state" name="husband_city_state" required>
+        
+        <label for="husband_phone">Telefone:</label>
+        <input type="text" id="husband_phone" name="husband_phone" required>
+        
+        <label for="husband_sus">Cartão SUS:</label>
+        <input type="text" id="husband_sus" name="husband_sus" required>
+        
+        <label for="husband_vaccine1">1ª Dose da Vacina COVID:</label>
+        <input type="date" id="husband_vaccine1" name="husband_vaccine1">
+        
+        <label for="husband_vaccine2">2ª Dose da Vacina COVID:</label>
+        <input type="date" id="husband_vaccine2" name="husband_vaccine2">
+        
+        <label for="husband_medication">Faz uso de medicamento contínuo?</label>
+        <select id="husband_medication" name="husband_medication">
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+        
+        <label for="husband_medication_names">Nome dos Medicamentos:</label>
+        <input type="text" id="husband_medication_names" name="husband_medication_names">
+        
+        <label for="husband_profession">Profissão:</label>
+        <input type="text" id="husband_profession" name="husband_profession" required>
+        
+        <label for="husband_shirt_size">Tamanho da Camiseta:</label>
+        <input type="text" id="husband_shirt_size" name="husband_shirt_size" required>
+
+        <h2>Informações da Esposa</h2>
+        <label for="wife_name">Nome Completo:</label>
+        <input type="text" id="wife_name" name="wife_name" required>
+        
+        <label for="wife_dob">Data de Nascimento:</label>
+        <input type="date" id="wife_dob" name="wife_dob" required>
+        
+        <label for="wife_age">Idade:</label>
+        <input type="number" id="wife_age" name="wife_age" required>
+        
+        <label for="wife_cpf">CPF:</label>
+        <input type="text" id="wife_cpf" name="wife_cpf" required>
+        
+        <label for="wife_rg">RG:</label>
+        <input type="text" id="wife_rg" name="wife_rg" required>
+        
+        <label for="wife_address">Endereço:</label>
+        <input type="text" id="wife_address" name="wife_address" required>
+        
+        <label for="wife_city_state">Cidade/Estado (UF):</label>
+        <input type="text" id="wife_city_state" name="wife_city_state" required>
+        
+        <label for="wife_phone">Telefone:</label>
+        <input type="text" id="wife_phone" name="wife_phone" required>
+        
+        <label for="wife_sus">Cartão SUS:</label>
+        <input type="text" id="wife_sus" name="wife_sus" required>
+        
+        <label for="wife_vaccine1">1ª Dose da Vacina COVID:</label>
+        <input type="date" id="wife_vaccine1" name="wife_vaccine1">
+        
+        <label for="wife_vaccine2">2ª Dose da Vacina COVID:</label>
+        <input type="date" id="wife_vaccine2" name="wife_vaccine2">
+        
+        <label for="wife_medication">Faz uso de medicamento contínuo?</label>
+        <select id="wife_medication" name="wife_medication">
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+        
+        <label for="wife_medication_names">Nome dos Medicamentos:</label>
+        <input type="text" id="wife_medication_names" name="wife_medication_names">
+        
+        <label for="wife_profession">Profissão:</label>
+        <input type="text" id="wife_profession" name="wife_profession" required>
+        
+        <label for="wife_shirt_size">Tamanho da Camiseta:</label>
+        <input type="text" id="wife_shirt_size" name="wife_shirt_size" required>
+
+        <h2>Informações do Casal</h2>
+        <label for="camp_name">Nome do Acampamento:</label>
+        <input type="text" id="camp_name" name="camp_name" required>
+        
+        <label for="current_job">Função que Exercem:</label>
+        <input type="text" id="current_job" name="current_job" required>
+        
+        <label for="dream_job">Função que Sonham em Exercir:</label>
+        <input type="text" id="dream_job" name="dream_job" required>
+        
+        <label for="sacrament">Sacramento Matrimonial:</label>
+        <input type="text" id="sacrament" name="sacrament" required>
+        
+        <label for="payment_method">Formas de Pagamento:</label>
+        <input type="text" id="payment_method" name="payment_method" required>
+        
+        <label for="media_authorization">Autorização para Divulgação:</label>
+        <textarea id="media_authorization" name="media_authorization" rows="4" cols="50">AUTORIZO: À M.D.U. PARÓQUIA SENHOR BOM JESUS, a publicar em suas mídias sociais, as fotos bem como filmagens da celebração da Santa Missa de Encerramento do Acampamento!</textarea>
+        
+        <input type="submit" value="Cadastrar">
+    </form>
+
+    <div id="customModal" class="modal">
+        <div class="modal-content">
+            <p id="modalMessage"></p>
+            <button onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('cadastroForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            const husbandName = data.husband_name.replace(/\s+/g, '');
+            const wifeName = data.wife_name.replace(/\s+/g, '');
+            const fileName = `${husbandName}${wifeName}`;
+
+            console.log('Dados do formulário:', data);
+            showModal(`Cadastro simulado com sucesso! Dados de ${fileName} seriam enviados para o Netlify.`);
+            e.target.reset();
+            return;
+        });
+
+        function showModal(message) {
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('customModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
