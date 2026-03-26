@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Casal</title>
+    <title>Cadastro de Casal - Oficial</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,9 +23,17 @@
             max-width: 600px;
             margin: auto;
         }
+        h2 {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 18px;
+            color: #555;
+        }
         label {
             display: block;
             margin: 10px 0 5px;
+            font-weight: bold;
         }
         input[type="text"],
         input[type="date"],
@@ -37,19 +45,22 @@
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            box-sizing: border-box; /* Garante que o padding não quebre a largura */
         }
         input[type="submit"] {
             background-color: #5cb85c;
             color: white;
-            padding: 10px 15px;
+            padding: 15px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
+            width: 100%;
         }
         input[type="submit"]:hover {
             background-color: #4cae4c;
         }
+        /* Estilos do Modal de Sucesso */
         .modal {
             display: none;
             position: fixed;
@@ -57,36 +68,27 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
         .modal-content {
             background: #fff;
-            padding: 20px;
-            border-radius: 5px;
+            padding: 30px;
+            border-radius: 8px;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-        .modal-content button {
-            background-color: #5cb85c;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .modal-content button:hover {
-            background-color: #4cae4c;
+            max-width: 400px;
         }
     </style>
 </head>
 <body>
+
     <h1>Formulário de Cadastro</h1>
-    <form id="cadastroForm" name="cadastroCasal" method="post" data-netlify="true" data-netlify-honeypot="bot-field">
+
+    <form id="cadastroForm" name="cadastroCasal" method="POST" data-netlify="true">
         <input type="hidden" name="form-name" value="cadastroCasal">
-        <input type="text" name="bot-field" style="display:none;">
+
         <h2>Informações do Esposo</h2>
         <label for="husband_name">Nome Completo:</label>
         <input type="text" id="husband_name" name="husband_name" required>
@@ -123,8 +125,8 @@
         
         <label for="husband_medication">Faz uso de medicamento contínuo?</label>
         <select id="husband_medication" name="husband_medication">
-            <option value="sim">Sim</option>
             <option value="nao">Não</option>
+            <option value="sim">Sim</option>
         </select>
         
         <label for="husband_medication_names">Nome dos Medicamentos:</label>
@@ -172,8 +174,8 @@
         
         <label for="wife_medication">Faz uso de medicamento contínuo?</label>
         <select id="wife_medication" name="wife_medication">
-            <option value="sim">Sim</option>
             <option value="nao">Não</option>
+            <option value="sim">Sim</option>
         </select>
         
         <label for="wife_medication_names">Nome dos Medicamentos:</label>
@@ -192,7 +194,7 @@
         <label for="current_job">Função que Exercem:</label>
         <input type="text" id="current_job" name="current_job" required>
         
-        <label for="dream_job">Função que Sonham em Exercir:</label>
+        <label for="dream_job">Função que Sonham em Exercer:</label>
         <input type="text" id="dream_job" name="dream_job" required>
         
         <label for="sacrament">Sacramento Matrimonial:</label>
@@ -202,42 +204,27 @@
         <input type="text" id="payment_method" name="payment_method" required>
         
         <label for="media_authorization">Autorização para Divulgação:</label>
-        <textarea id="media_authorization" name="media_authorization" rows="4" cols="50">AUTORIZO: À M.D.U. PARÓQUIA SENHOR BOM JESUS, a publicar em suas mídias sociais, as fotos bem como filmagens da celebração da Santa Missa de Encerramento do Acampamento!</textarea>
+        <textarea id="media_authorization" name="media_authorization" rows="4">AUTORIZO: À M.D.U. PARÓQUIA SENHOR BOM JESUS, a publicar em suas mídias sociais, as fotos bem como filmagens da celebração da Santa Missa de Encerramento do Acampamento!</textarea>
         
-        <input type="submit" value="Cadastrar">
+        <input type="submit" value="Finalizar Cadastro">
     </form>
 
     <div id="customModal" class="modal">
         <div class="modal-content">
-            <p id="modalMessage"></p>
-            <button onclick="closeModal()">OK</button>
+            <p id="modalMessage">Enviando dados... Por favor, aguarde.</p>
         </div>
     </div>
 
     <script>
-        document.getElementById('cadastroForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
-            const husbandName = data.husband_name.replace(/\s+/g, '');
-            const wifeName = data.wife_name.replace(/\s+/g, '');
-            const fileName = `${husbandName}${wifeName}`;
-
-            console.log('Dados do formulário:', data);
-            showModal(`Cadastro simulado com sucesso! Dados de ${fileName} seriam enviados para o Netlify.`);
-            e.target.reset();
-            return;
-        });
-
-        function showModal(message) {
-            document.getElementById('modalMessage').textContent = message;
+        const form = document.getElementById('cadastroForm');
+        
+        form.addEventListener('submit', function() {
+            // Mostra o modal de carregamento para o usuário não clicar duas vezes
             document.getElementById('customModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('customModal').style.display = 'none';
-        }
+            document.getElementById('modalMessage').textContent = "Enviando seu cadastro... Você será redirecionado em instantes.";
+            
+            // O formulário seguirá o fluxo natural do Netlify após isso
+        });
     </script>
 </body>
 </html>
